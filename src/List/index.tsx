@@ -68,12 +68,12 @@ export function GbsList(props: Props) {
 const Wrap = styled.div`
   position: fixed;
   width: 100%;
-  height: 100%;
-  top: 0;
+  height: calc(100% - 100px);
+  bottom: 0;
   left: 0;
   background: #222;
   color: #fff;
-  z-index: 9999;
+  z-index: 5000001;
   overflow-y: scroll;
   > .header {
     display: flex;
