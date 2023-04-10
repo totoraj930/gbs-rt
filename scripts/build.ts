@@ -2,7 +2,7 @@ import { build } from 'tsup';
 
 async function main() {
   await build({
-    entry: ['./src/index.ts'],
+    entry: ['./src-server/index.ts'],
     outDir: './dist',
     clean: true,
     dts: false,
@@ -10,8 +10,8 @@ async function main() {
     splitting: false,
   });
   await build({
-    entry: ['./src/monitor/index.ts'],
-    outDir: './dist/monitor',
+    entry: ['./src-server/cache/index.ts'],
+    outDir: './dist/cache',
     clean: false,
     dts: false,
     sourcemap: 'inline',
