@@ -102,17 +102,21 @@ export function App() {
 
     createEffect(
       on(filterId, (id) => {
-        sendFilter(id);
+        if (id === null) {
+        } else {
+          sendFilter(id);
+        }
       })
     );
 
-    connectReciver();
-
-    setTimeout(() => {
-      initFocusDetector();
-      initTweetElmObserver();
-      initAutoscrollObserver();
-    }, 500);
+    if (filterId() !== null) {
+      connectReciver();
+      setTimeout(() => {
+        initFocusDetector();
+        initTweetElmObserver();
+        initAutoscrollObserver();
+      }, 500);
+    }
 
     const $style = document.createElement('style');
     $style.innerHTML = indexCss;
@@ -122,7 +126,7 @@ export function App() {
     <Div>
       <header>
         <h1>Granblue Search</h1>
-        <p>for リアルタイム検索</p>
+        <p>(0.0.1-beta)</p>
       </header>
       <Column />
       {/* <p>autoscroll: {autoscroll() + ''}</p>

@@ -39,7 +39,7 @@ export async function initAutoCopy() {
   setCanAutoCopy(await hasClipboardPermission());
 }
 
-export const [filterId, setFilterId] = createSignal(-1);
+export const [filterId, setFilterId] = createSignal<null | number>(null);
 
 export const zClickAction = z.enum([
   'copy',

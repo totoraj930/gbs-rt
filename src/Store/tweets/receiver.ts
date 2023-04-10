@@ -35,7 +35,10 @@ gbsWs.on('tweet', (mini) => {
  * 初回のフィルタ更新
  */
 gbsWs.on('open', () => {
-  sendFilter(filterId());
+  const id = filterId();
+  if (id !== null) {
+    sendFilter(id);
+  }
 });
 
 /**

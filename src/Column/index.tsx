@@ -63,6 +63,11 @@ export function Column() {
     tweetReciver.off('tweet', onTweet);
   });
 
+  const subsText = createMemo(() => {
+    if (subsNum() <= 0) return '';
+    return subsNum() + '人';
+  });
+
   return (
     <Wrap>
       <header>
@@ -77,7 +82,7 @@ export function Column() {
             AUTO
           </AutoButton>
         </Show>
-        <span class="subs">{subsNum()}人</span>
+        <span class="subs">{subsText()}</span>
       </header>
       <div class="gbs-scroll">
         <div class="gbs-scroll-inner">

@@ -49,6 +49,7 @@ export function GbsList(props: Props) {
             const params = url.searchParams;
             params.set('p', p);
             params.set('md', 't');
+            url.pathname = '/realtime/search';
             const href = url.href;
 
             return (
