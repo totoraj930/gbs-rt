@@ -1,0 +1,40 @@
+{
+  "name": "gbs-rt",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "tsup --watch",
+    "pup": "tsx scripts/debug.ts",
+    "dev:cache": "tsx src-server/cache/index.ts",
+    "dev:sync": "tsx src-server/index.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^0.5.0",
+    "@totoraj930/gbf-tweet-parser": "^1.0.3",
+    "axios": "^1.3.4",
+    "clsx": "^1.2.1",
+    "dotenv": "^16.0.3",
+    "gbs-open-lib": "github:totoraj930/gbs-open-lib",
+    "hono": "^3.1.5",
+    "ioredis": "^5.3.1",
+    "mitt": "^3.0.0",
+    "solid-js": "^1.7.3",
+    "solid-styled-components": "^0.28.5",
+    "uuid": "^9.0.0",
+    "ws": "^8.13.0",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "@types/uuid": "^9.0.1",
+    "@types/ws": "^8.5.4",
+    "puppeteer": "^19.8.5",
+    "tsup": "^6.7.0",
+    "tsup-preset-solid": "^0.1.8",
+    "tsx": "^3.12.6",
+    "typescript": "^5.0.2"
+  },
+  "lisense": "MIT"
+}

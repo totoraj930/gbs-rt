@@ -1,0 +1,11 @@
+
+node_modules
+
+dist
+public
+.tmp
+
+**/.env
+
+**/*.db
+*.log
