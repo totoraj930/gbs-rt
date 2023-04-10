@@ -66,8 +66,8 @@ export function Column() {
   return (
     <Wrap>
       <header>
+        <AutoButton onClick={() => setOpen(true)}>リストから検索</AutoButton>
         <Show when={canAutoCopy()}>
-          <AutoButton onClick={() => setOpen(true)}>リストから検索</AutoButton>
           <AutoButton
             class={clsx({ on: settings.autoCopy, pause: !hasFocus() })}
             onClick={() => {
