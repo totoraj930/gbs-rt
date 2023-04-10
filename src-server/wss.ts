@@ -90,6 +90,14 @@ wss.on('connection', (ws, req) => {
             subscriber.set(msg.id, clients);
           }
           clients.add(ws);
+          const size = clients.size;
+          clients.forEach((target) => {
+            sendMessage(target, {
+              type: 'subs',
+              id: msg.id,
+              num: size,
+            });
+          });
           break;
         }
         case 'raw': {
@@ -118,8 +126,18 @@ wss.on('connection', (ws, req) => {
 });
 
 function removeAllFilter(ws: WebSocket) {
-  for (const clients of subscriber.values()) {
-    clients.delete(ws);
+  for (const [id, clients] of subscriber.entries()) {
+    if (clients.has(ws)) {
+      clients.delete(ws);
+      const size = clients.size;
+      clients.forEach((target) => {
+        sendMessage(target, {
+          type: 'subs',
+          num: size,
+          id,
+        });
+      });
+    }
   }
 }
 

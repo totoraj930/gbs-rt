@@ -70,14 +70,7 @@ export function Tweet(props: Props) {
         </span>
       </Show>
 
-      <span
-        class={clsx(
-          'tweet-battle-id absolute right-[5px] bottom-[6px] text-[14px] font-[700]',
-          'text-white'
-        )}
-      >
-        {props.tweet.battleId}
-      </span>
+      <span class="tweet-battle-id">{props.tweet.battleId}</span>
     </Button>
   );
 }

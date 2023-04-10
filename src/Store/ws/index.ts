@@ -2,6 +2,7 @@ import { RaidTweetMini } from 'gbs-open-lib';
 import mitt from 'mitt';
 import { ClientMessage, zServerMessage } from '@server/schema';
 import { createSignal } from 'solid-js';
+import { setSubsNum } from '../tweets';
 
 type WsEvent = {
   tweet: RaidTweetMini;
@@ -88,6 +89,9 @@ export function connect() {
               sendMessage({ type: 'ping' });
             }, 3000);
             break;
+          }
+          case 'subs': {
+            setSubsNum(msg.num);
           }
         }
       } catch (err) {

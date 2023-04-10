@@ -5,7 +5,7 @@ import { debugServerApp, serverEvent } from './server';
 import { serve } from '@hono/node-server';
 
 const tmpDir = path.join('.tmp');
-const scriptFile = path.join('dist/index.global.js');
+const scriptFile = path.join('public/script/index.global.js');
 // const ytUrl =
 //   'https://search.yahoo.co.jp/realtime/search?p=%22Lvl%20200%20Akasha%22%20OR%20%22Lv200%20%E3%82%A2%E3%83%BC%E3%82%AB%E3%83%BC%E3%82%B7%E3%83%A3%22&ei=UTF-8&mtype=';
 const ytUrl =

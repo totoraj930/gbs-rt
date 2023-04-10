@@ -33,6 +33,11 @@ export const zServerMessage = z.union([
   z.object({
     type: z.literal('pong'),
   }),
+  z.object({
+    type: z.literal('subs'),
+    id: z.number().int(),
+    num: z.number().int(),
+  }),
 ]);
 
 export type ServerMessage = z.infer<typeof zServerMessage>;

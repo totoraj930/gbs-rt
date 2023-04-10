@@ -21,6 +21,11 @@ export const copiedIds = () => {
 };
 
 /**
+ * 購読人数
+ */
+export const [subsNum, setSubsNum] = createSignal(0);
+
+/**
  * 時間のズレ
  */
 export const [globalTimeDiff, setGlobalTimeDiff] = createSignal(0);

@@ -1,5 +1,11 @@
-import { hasFocus, setSettings, settings } from '@/Store/settings';
-import { allTweets, copyTweet } from '@/Store/tweets';
+import {
+  canAutoCopy,
+  hasFocus,
+  initAutoCopy,
+  setSettings,
+  settings,
+} from '@/Store/settings';
+import { allTweets, copyTweet, subsNum } from '@/Store/tweets';
 import { tweetReciver } from '@/Store/tweets/receiver';
 import { TweetData } from '@/Store/tweets/schema';
 import {
@@ -14,6 +20,7 @@ import { styled } from 'solid-styled-components';
 import { Tweet } from './Tweet';
 import clsx from 'clsx';
 import { hasClipboardPermission } from '@/utils';
+import { GbsList } from '@/List';
 
 declare global {
   interface Window {
@@ -23,6 +30,7 @@ declare global {
 
 export function Column() {
   const [filteredTweets, setFilteredTweets] = createSignal<TweetData[]>([]);
+  const [open, setOpen] = createSignal(false);
 
   function onTweet(tweetData: TweetData) {
     setFilteredTweets((prev) => {
@@ -58,7 +66,8 @@ export function Column() {
   return (
     <Wrap>
       <header>
-        <Show when={hasClipboardPermission()}>
+        <Show when={canAutoCopy()}>
+          <AutoButton onClick={() => setOpen(true)}>リストから検索</AutoButton>
           <AutoButton
             class={clsx({ on: settings.autoCopy, pause: !hasFocus() })}
             onClick={() => {
@@ -68,6 +77,7 @@ export function Column() {
             AUTO
           </AutoButton>
         </Show>
+        <span class="subs">{subsNum()}人</span>
       </header>
       <div class="gbs-scroll">
         <div class="gbs-scroll-inner">
@@ -83,6 +93,9 @@ export function Column() {
           </For>
         </div>
       </div>
+      <Show when={open()}>
+        <GbsList onClose={() => setOpen(false)} />
+      </Show>
     </Wrap>
   );
 }
@@ -90,14 +103,13 @@ export function Column() {
 const AutoButton = styled.button`
   border: 0;
   display: block;
-  width: 60px;
-  padding: 3px 0;
+  padding: 3px 10px;
   text-align: center;
   font-weight: bold;
   background: #fff;
   color: #222;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 12px;
   &.on {
     background: #05d9ff;
     color: #fff;
@@ -112,11 +124,20 @@ const Wrap = styled.section`
   display: flex;
   flex-direction: column;
   > header {
+    display: flex;
+    align-items: center;
     flex-grow: 0;
     flex-shrink: 0;
-    padding: 5px;
+    height: 40px;
+    padding: 0 5px;
+    gap: 5px;
     border-top: 1px solid #333;
     border-bottom: 1px solid #333;
+    .subs {
+      color: #fff;
+      font-size: 13px;
+      margin-left: auto;
+    }
   }
   .gbs-scroll {
     position: relative;

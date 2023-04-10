@@ -1,4 +1,4 @@
-import { onMount } from 'solid-js';
+import { createEffect, on, onMount } from 'solid-js';
 import {
   getTweetFromElm,
   initTweetElmObserver,
@@ -13,10 +13,16 @@ import {
   toggleAutoscroll,
 } from './Store/autoscroll';
 import { sendMessage } from './Store/ws';
-import { connectReciver } from './Store/tweets/receiver';
-import { initFocusDetector } from './Store/settings';
+import { connectReciver, sendFilter } from './Store/tweets/receiver';
+import {
+  filterId,
+  initAutoCopy,
+  initFocusDetector,
+  setFilterId,
+} from './Store/settings';
 import { Column } from './Column';
 import { allTweets } from './Store/tweets';
+import { gbsList } from './Store/gbsList';
 
 const indexCss = `
   *,
@@ -37,44 +43,68 @@ const indexCss = `
     position: relative;
   }
   .s div[class^=SearchWrapper] {
+    /*
     height: 0;
     min-height: 0;
     overflow: hidden;
     opacity: 0;
     pointer-events: none;
+    */
   }
   .p #search {
+    /*
     height: 0;
     overflow: hidden;
     opacity: 0;
     pointer-events: none;
+    */
   }
 `;
+
+export function getEnemyId(name: string, level: string) {
+  const enemy = gbsList().find((item) => {
+    return (item.en === name || item.ja === name) && item.level === level;
+  });
+  return enemy?.id ?? -1;
+}
+
+let first = true;
 
 export function App() {
   onMount(() => {
     console.log('Started App');
 
-    window.addEventListener('focus', () => {});
+    initAutoCopy();
 
     tweetElmReceiver.on('tweets', async (tweets) => {
+      if (tweets.length < 1) return;
+
+      if (first) {
+        const enemyIds = new Set<number>();
+        for (const tweet of tweets) {
+          enemyIds.add(getEnemyId(tweet.enemy_name, tweet.level));
+        }
+        const targetEnemyId = [...enemyIds].sort((a, b) => b - a)[0];
+        setFilterId(targetEnemyId);
+        first = false;
+        console.log(targetEnemyId);
+      }
+
       const newTweets = tweets.filter((tweet) => {
         return !allTweets().find((target) => target.tweetId === tweet.tweet_id);
       });
-      // console.log(newTweets, tweets.length, newTweets.length);
+
       sendMessage({
         type: 'raw',
         data: newTweets,
       });
-      // await fetch('http://127.0.0.1:3000/post', {
-      //   method: 'POST',
-      //   mode: 'cors',
-      //   headers: {
-      //     'content-type': 'application/json',
-      //   },
-      //   body: JSON.stringify(tweets),
-      // });
     });
+
+    createEffect(
+      on(filterId, (id) => {
+        sendFilter(id);
+      })
+    );
 
     connectReciver();
 
