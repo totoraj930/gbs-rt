@@ -59,7 +59,8 @@ export function connect() {
   try {
     // ws = new WebSocket(`ws://${location.hostname}:10510/ws/`);
     // ws = new WebSocket(`wss://gbs-open.eriri.net/private/api/stream/ws/`);
-    ws = new WebSocket(`ws://127.0.0.1:10505/ws/`);
+    // ws = new WebSocket(`ws://127.0.0.1:10505/ws/`);
+    ws = new WebSocket(`wss://gbs-rt.eriri.net/ws/`);
 
     ws.addEventListener('message', (event) => {
       prevMessageTime = Date.now();
